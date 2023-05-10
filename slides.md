@@ -84,35 +84,104 @@ Lzzzs
 
 ---
 
+# 语言选择
+
+<h3 v-click>
+ ?? JavaScript ??
+</h3>
+
+<h3 v-click style="margin-top: 30px;">
+<strong><span style="color: red;">Type</span>Script</strong> !!!
+</h3>
+
+<ul style="padding-left: 20px; padding-top: 20px;">
+  <li v-click>强类型，支持静态和动态类型（<u>更容易写出<strong>健壮性</strong>高的代码</u>）</li>
+  <li v-click>在编译期间可以检测和修复错误</li>
+  <li v-click>支持模块、泛型和接口</li>
+  <li v-click>...</li>
+</ul>
+
+<h1 v-click style="margin-top: 30px;">
+  <div>↑</div>
+  <span style="color: green;">any</span>Script🤡
+</h1>
+
+---
+
+# 集成 Next.js
+
+- 创建文件夹
+- 初始化 `package.json`
+
 ```shell
+# 进入刚创建的文件夹下打开终端
 npm init -y
-pnpm add next@latest react@latest react-dom@latest
 ```
 
-- 推荐 ni
+- 安装依赖
 
-- 添加 script 脚本
-  ```json
-   "dev": "next dev --turbo",
-   "build: "next build",
-  ```
-- 根目录下创建 pages 文件夹
-  - 文件夹下添加 index.tsx
-    ```tsx
-    export default function Index() {
-      return <div>hello world</div>;
-    }
-    ```
-- 集成 tailwindcss
+```shell {all|1|2-3|all}
+pnpm add next@latest react@latest react-dom@latest
+# 或使用ni安装依赖包，后面默认都使用ni
+ni next@latest react@latest react-dom@latest
+```
 
-```shell
+- 在 `package.json` 中添加 scripts 脚本
+
+```json {all|4|5|all}
+{
+  ...
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build",
+  }
+  ...
+}
+```
+
+---
+
+- 根目录下创建 **app** 文件夹
+- 在 **app** 文件夹分别创建 **layout.tsx** 和 **page.tsx**
+
+```tsx {1|2-8|all}
+// layout.tsx
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+```tsx {1|2-4|all}
+// page.tsx
+export default function Page() {
+  return <h1>Hello World</h1>;
+}
+```
+
+<div v-click style="margin-top: 20px;">
+至此，项目已经可以通过 <code>nr dev</code> 跑起来了
+<img src="/hello-world.jpg" style="margin-top: 20px;" />
+</div>
+
+---
+
+# 集成 tailwindcss
+
+- 安装 tailwindcss
+
+```shell {all|1|2|all}
 ni -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p # 自动生成tailwind.config.js 和 postcss.config.js
 ```
 
-- 修改 tailwindcss.js
+- 修改 tailwind.config.js
 
-```js
+```js {all|1|all}
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -127,50 +196,32 @@ module.exports = {
 };
 ```
 
+---
+
 - app 文件夹下添加 global.css
 
-```css
+```css {all|1|2|3|4|all}
+/* global.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
 
-- app/layout.tsx 中引入 global.css
-  import './global.css';
+- 在 app/layout.tsx 中引入 global.css
 
-- 运行 `nr dev` 启动项目
-
----
-
-```shell
-ni -D eslint @antfu/eslint-config
-```
-
-- 创建 .eslintrc.js
-
-```js
-{
-  "extends": "@antfu"
-}
-```
-
-- package.json 中添加 script
-
-```json
-{
-  "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
-  }
-}
+```tsx {all|1|2|all}
+// layout.tsx
+import './global.css';
 ```
 
 ---
 
-- 代码风格规范 editorconfig
-  - 创建.editorconfig 文件
+# 编辑器代码风格统一
+
+- 根目录下创建 **_.editorconfig_** 文件
 
 ```yml
+# .editorconfig
 root = true
 
 [*]
@@ -190,61 +241,142 @@ indent_style = tab
 
 ---
 
-# husky line pre-commit
+# Eslint 保证代码风格统一
+
+- 安装依赖
+
+```shell
+ni -D eslint @antfu/eslint-config
+```
+
+- 根目录下创建 .eslintrc.js
+
+```js
+{
+  "extends": "@antfu"
+}
+```
+
+- package.json 中添加 scripts 脚本
+
+```json {all|5|6|all}
+{
+  ...
+  "scripts": {
+    ...
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  }
+  ...
+}
+```
+
+---
+
+# 同事关系润滑剂
+
+<div v-click>
+
+- 安装 `husky` 和 `lint-staged`
 
 ```shell
 ni husky lint-staged -D
 ```
 
+</div>
+
+<div v-click>
+
+- 修改 **package.json**
+
 ```json
-// change 1: 配置 lint-staged 指令
+// step 1: 新增 lint-staged prepare 脚本
 "scripts": {
-// 新增这二行
-"lint-staged": "lint-staged",
- "prepare": "husky install",
-...
+  ...
+  // 新增这二行
+  "lint-staged": "lint-staged",
+  "prepare": "husky install",
+  ...
 },
-// change 2: 配置 lint-staged 的具体任务
+
+// step 2: 配置 lint-staged
+{
+  ...
   "lint-staged": {
     "*": [
       "eslint . --fix"
     ]
   }
+}
 ```
 
-- ni 生成.husky
-
-- 添加 git hooks -> pre-commit，运行一下命令创建 git hooks
-
-  ```shell
-  npx husky add .husky/pre-commit "pnpm lint-staged"
-  ```
+</div>
 
 ---
 
-# commit-msg
+<div>
+
+- 终端执行 `ni` 命令自动生成 **.husky** 文件
+
+</div>
+
+<div v-click>
+
+- 添加 git hooks -> pre-commit，运行命令创建 git hooks
+
+```shell
+npx husky add .husky/pre-commit "pnpm lint-staged"
+```
+
+</div>
+
+---
+
+# 规范 commit-message
+
+<div v-click>
+
+- 安装规范 commit-message 所需的依赖包
+
+```shell
+ni -D @commitlint/config-conventional @commitlint/cli cz-git
+```
+
+</div>
+
+<div v-click>
 
 - 添加 git hooks -> commit-msg，运行一下命令创建 git hooks
 
-  ```shell
-  ni -D @commitlint/config-conventional @commitlint/cli cz-git
-  npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
-  ```
+```shell
+npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+```
 
-- 修改 package.json 添加 config 指定使用的适配器
+</div>
 
-  ```json
-  {
-    "scripts": {},
-    "config": {
-      "commitizen": {
-        "path": "node_modules/cz-git"
-      }
+<div v-click>
+
+- 修改 **package.json** 添加 config 指定使用的适配器，以及 **commit** 脚本
+
+```json
+{
+  "scripts": {
+    ...
+    "commit": "git add . && cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
     }
   }
-  ```
+}
+```
 
-- 新建 commitlint.config.js
+</div>
+
+---
+
+- 根目录下新建 **commitlint.config.js** (太长了，放不下)
 
   ```js
   /** @type {import('cz-git').UserConfig} */
@@ -363,12 +495,6 @@ ni husky lint-staged -D
   };
   ```
 
-- 添加 commit 脚本
-  ```json
-  {
-    "scripts": {
-      ...
-      "commit": "git add . && cz"
-    },
-  }
-  ```
+---
+
+# test
