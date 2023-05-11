@@ -18,7 +18,7 @@ Lzzzs
 <div class="leading-8 opacity-80">
 前端爱好者，喜欢探索新技术<br>
 开源爱好者，梦想做全职开源<br>
-<strong>unplugin-vue-macros</strong> 中文文档维护者<br>
+<strong><a href="https://vue-macros.sxzz.moe/zh-CN/" target="_blank">unplugin-vue-macros</a></strong> 中文文档编写者<br>
 <br>
 </div>
 
@@ -497,4 +497,55 @@ npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
 
 ---
 
-# test
+# Vitest
+
+<div v-click>
+
+- 安装依赖
+
+```shell
+ni -D vitest @vitejs/plugin-react jsdom
+```
+
+</div>
+
+<div v-click>
+
+- 在根目录下创建 `vitest.config.ts`
+
+```ts
+/// <reference types="vitest" />
+
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: 'jsdom',
+  },
+});
+```
+
+</div>
+
+---
+
+- **package.json** 添加 **scripts** 脚本
+
+```json {all|5|all}
+{
+  ...
+  "scripts": {
+    ...
+    "test": "vitest"
+  }
+}
+```
+
+<div v-click>
+
+- 之后就可以编写测试代码，通过执行 `nr test` 进行测试
+
+</div>
