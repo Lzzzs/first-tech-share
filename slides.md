@@ -110,7 +110,14 @@ Lzzzs
 
 # 集成 Next.js
 
+<div v-click>
+
 - 创建文件夹
+
+</div>
+
+<div v-click>
+
 - 初始化 `package.json`
 
 ```shell
@@ -118,17 +125,25 @@ Lzzzs
 npm init -y
 ```
 
+</div>
+
+<div v-click>
+
 - 安装依赖
 
-```shell {all|1|2-3|all}
+```shell
 pnpm add next@latest react@latest react-dom@latest
 # 或使用ni安装依赖包，后面默认都使用ni
 ni next@latest react@latest react-dom@latest
 ```
 
+</div>
+
+<div v-click>
+
 - 在 `package.json` 中添加 scripts 脚本
 
-```json {all|4|5|all}
+```json
 {
   ...
   "scripts": {
@@ -138,6 +153,8 @@ ni next@latest react@latest react-dom@latest
   ...
 }
 ```
+
+</div>
 
 ---
 
@@ -171,16 +188,22 @@ export default function Page() {
 
 # 集成 tailwindcss
 
+<div v-click>
+
 - 安装 tailwindcss
 
-```shell {all|1|2|all}
+```shell
 ni -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p # 自动生成tailwind.config.js 和 postcss.config.js
 ```
 
+</div>
+
+<div v-click>
+
 - 修改 tailwind.config.js
 
-```js {all|1|all}
+```js
 // tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -195,6 +218,8 @@ module.exports = {
   plugins: [],
 };
 ```
+
+</div>
 
 ---
 
@@ -218,6 +243,8 @@ import './global.css';
 
 # 编辑器代码风格统一
 
+<div v-click>
+
 - 根目录下创建 **_.editorconfig_** 文件
 
 ```yml
@@ -239,15 +266,23 @@ trim_trailing_whitespace = false
 indent_style = tab
 ```
 
+</div>
+
 ---
 
 # Eslint 保证代码风格统一
+
+<div v-click>
 
 - 安装依赖
 
 ```shell
 ni -D eslint @antfu/eslint-config
 ```
+
+</div>
+
+<div v-click>
 
 - 根目录下创建 .eslintrc.js
 
@@ -257,9 +292,13 @@ ni -D eslint @antfu/eslint-config
 }
 ```
 
+</div>
+
+<div v-click>
+
 - package.json 中添加 scripts 脚本
 
-```json {all|5|6|all}
+```json
 {
   ...
   "scripts": {
@@ -270,6 +309,8 @@ ni -D eslint @antfu/eslint-config
   ...
 }
 ```
+
+</div>
 
 ---
 
@@ -327,6 +368,12 @@ ni husky lint-staged -D
 ```shell
 npx husky add .husky/pre-commit "pnpm lint-staged"
 ```
+
+</div>
+
+<div v-click>
+
+- 至此，我们执行 `git add .`之前，就会自动执行 `eslint . --fix` 了。那么在 git 暂存区的代码就是符合 我们定义的 eslint 规范的代码了
 
 </div>
 
